@@ -9,26 +9,49 @@ function thousandsSeparator(x) {
   }
 }
 
-let map = L.map("map", {
+let map1 = L.map("map_rev_1", {
   fullScreenControl: true,
   zoomSnap: 1,
   minZoom: 5,
 }).setView([38, -97], 5);
 
-let layerTilesOSM = new L.tileLayer(
+let map2 = L.map("map_rev_2", {
+  fullScreenControl: true,
+  zoomSnap: 1,
+  minZoom: 5,
+}).setView([38, -97], 5);
+
+let layerTilesOSM_1 = new L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</a>',
   }
-).addTo(map);
+);
 
-L.control
-  .scale({ metric: true, imperial: true, position: "bottomright" })
-  .addTo(map);
+let layerTilesOSM_2 = new L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</a>',
+  }
+);
+
+layerTilesOSM_1.addTo(map1);
+layerTilesOSM_2.addTo(map2);
+
+let scale = L.control.scale({
+  metric: true,
+  imperial: true,
+  position: "bottomright",
+});
+
+scale.addTo(map1);
+scale.addTo(map2);
 
 const fsControl = L.control.fullscreen();
-map.addControl(fsControl);
+map1.addControl(fsControl);
+map2.addControl(fsControl);
 
 let popupStyle = {
   maxWidth: "300",
@@ -58,6 +81,7 @@ function onEachMarker(feature, layer) {
   layer.bindPopup(popupContent, popupStyle);
 }
 
+// rev001 - as individual circles
 let layerPoints = L.geoJson(geojsonPoints, {
   onEachFeature: onEachMarker,
   pointToLayer: function (feature, latlng) {
@@ -70,4 +94,17 @@ let layerPoints = L.geoJson(geojsonPoints, {
       weight: 2,
     });
   },
-}).addTo(map);
+}).addTo(map1);
+
+// rev002 - as individual circles
+let markerCluster = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  singleMarkerMode: true,
+});
+
+let geoJsonLayer = L.geoJson(geojsonPoints, {
+  onEachFeature: onEachMarker,
+});
+markerCluster.addLayer(geoJsonLayer);
+
+map2.addLayer(markerCluster);
