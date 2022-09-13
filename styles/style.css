@@ -8,7 +8,6 @@
   border-style: ridge;
 }
 
-
 .leaflet-pseudo-fullscreen {
   position: fixed;
   width: 100%;
@@ -63,4 +62,21 @@
   background-color: #e18f0c;
   border-width: 0px !important;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4) !important;
+}
+
+.star {
+  font-size: 15px;
+}
+
+.logo {
+  border: 1px solid black;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.title {
+  border: 1px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #ffffff;
 }
