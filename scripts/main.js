@@ -157,14 +157,14 @@ map2.addLayer(markerCluster);
 const logo1 = L.control({ position: "topright" });
 logo1.onAdd = function (map) {
   let div = L.DomUtil.create("div", "logo");
-  div.innerHTML = "<img src='../images/logo.png'/>";
+  div.innerHTML = "<img src='./images/logo.png'/>";
   return div;
 };
 
 const logo2 = L.control({ position: "topright" });
 logo2.onAdd = function (map) {
   let div = L.DomUtil.create("div", "logo");
-  div.innerHTML = "<img src='../images/logo.png'/>";
+  div.innerHTML = "<img src='./images/logo.png'/>";
   return div;
 };
 
