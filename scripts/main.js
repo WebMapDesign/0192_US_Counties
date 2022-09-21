@@ -126,7 +126,42 @@ function onEachMarker(feature, layer) {
   layer.bindPopup(popupContent, popupStyle);
 }
 
-// rev001 - as individual circles
+function onEachPointFarmToSchool(feature, layer) {
+  let popupContent =
+    '<p class="popup-title">' +
+    feature.properties.city +
+    ", " +
+    feature.properties.state +
+    "</p>" +
+    '<p class="popup-text">Recipient: ' +
+    feature.properties.recipient +
+    "</p>" +
+    '<p class="popup-text">Grant Amount: $' +
+    thousandsSeparator(feature.properties.amount) +
+    "</p>" +
+    '<p class="popup-text">Grant Type: ' +
+    feature.properties.grant_type +
+    "</p>";
+  layer.bindPopup(popupContent, popupStyle);
+}
+
+function onEachPointMeatInspectionReadiness(feature, layer) {
+  let popupContent =
+    '<p class="popup-title">' +
+    feature.properties.city +
+    ", " +
+    feature.properties.state +
+    "</p>" +
+    '<p class="popup-text">Recipient: ' +
+    feature.properties.recipient +
+    "</p>" +
+    '<p class="popup-text">Grant Amount: $' +
+    thousandsSeparator(feature.properties.amount) +
+    "</p>";
+  layer.bindPopup(popupContent, popupStyle);
+}
+
+// ------------map1 layers------------
 let layerPoints = L.geoJson(geojsonPoints, {
   onEachFeature: onEachMarker,
   pointToLayer: function (feature, latlng) {
@@ -141,7 +176,35 @@ let layerPoints = L.geoJson(geojsonPoints, {
   },
 }).addTo(map1);
 
-// rev002 - as individual circles
+let layerFarmToSchool1 = L.geoJson(geojson_FY2022_Farm_To_School, {
+  onEachFeature: onEachPointFarmToSchool,
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      color: "#ffffff",
+      fillColor: "#0764ab",
+      fillOpacity: 0.8,
+      opacity: 1,
+      radius: 7,
+      weight: 2,
+    });
+  },
+}).addTo(map1);
+
+let layerMeatReadiness1 = L.geoJson(geojson_FY2022_Meat_Inspection_Readiness, {
+  onEachFeature: onEachPointMeatInspectionReadiness,
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      color: "#ffffff",
+      fillColor: "#000000",
+      fillOpacity: 0.8,
+      opacity: 1,
+      radius: 7,
+      weight: 2,
+    });
+  },
+}).addTo(map1);
+
+// ------------map2 layers------------
 let markerCluster = L.markerClusterGroup({
   showCoverageOnHover: false,
   singleMarkerMode: true,
@@ -153,6 +216,34 @@ let geoJsonLayer = L.geoJson(geojsonPoints, {
 markerCluster.addLayer(geoJsonLayer);
 
 map2.addLayer(markerCluster);
+
+let layerFarmToSchool2 = L.geoJson(geojson_FY2022_Farm_To_School, {
+  onEachFeature: onEachPointFarmToSchool,
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      color: "#ffffff",
+      fillColor: "#0764ab",
+      fillOpacity: 0.8,
+      opacity: 1,
+      radius: 7,
+      weight: 2,
+    });
+  },
+}).addTo(map2);
+
+let layerMeatReadiness2 = L.geoJson(geojson_FY2022_Meat_Inspection_Readiness, {
+  onEachFeature: onEachPointMeatInspectionReadiness,
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      color: "#ffffff",
+      fillColor: "#000000",
+      fillOpacity: 0.8,
+      opacity: 1,
+      radius: 7,
+      weight: 2,
+    });
+  },
+}).addTo(map2);
 
 const logo1 = L.control({ position: "topright" });
 logo1.onAdd = function (map) {
@@ -171,14 +262,14 @@ logo2.onAdd = function (map) {
 const title1 = L.control({ position: "bottomleft" });
 title1.onAdd = function (map) {
   let div = L.DomUtil.create("div", "title");
-  div.innerHTML = "<h2>USDA Rural Development Grant Awards, FY '92</h2>";
+  div.innerHTML = "<h2>USDA Rural Development Grant Awards, FY 2022</h2>";
   return div;
 };
 
 const title2 = L.control({ position: "bottomleft" });
 title2.onAdd = function (map) {
   let div = L.DomUtil.create("div", "title");
-  div.innerHTML = "<h2>USDA Rural Development Grant Awards, FY '92</h2>";
+  div.innerHTML = "<h2>USDA Rural Development Grant Awards, FY 2022</h2>";
   return div;
 };
 
@@ -187,3 +278,23 @@ logo2.addTo(map2);
 
 title1.addTo(map1);
 title2.addTo(map2);
+
+const overlays1 = {
+  "USDA Rural Development Grant Awards, FY 2022": layerPoints,
+  "Farm to School Grant, FY 2022": layerFarmToSchool1,
+  "Meat and Poultry Inspection Readiness Grants, FY 2022": layerMeatReadiness1,
+};
+
+const overlays2 = {
+  "USDA Rural Development Grant Awards, FY 2022": markerCluster,
+  "Farm to School Grant, FY 2022": layerFarmToSchool2,
+  "Meat and Poultry Inspection Readiness Grants, FY 2022": layerMeatReadiness2,
+};
+
+const layerControlMap1 = L.control
+  .layers({}, overlays1, { collapsed: false, position: "bottomleft" })
+  .addTo(map1);
+
+const layerControlMap2 = L.control
+  .layers({}, overlays2, { collapsed: false, position: "bottomleft" })
+  .addTo(map2);
