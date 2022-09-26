@@ -30,8 +30,8 @@ let map2 = L.map("map_rev_2", {
   zoomSnap: 1,
   minZoom: 5,
   maxBounds: [
-    [50.0, -140.0],
-    [20.0, -55.0],
+    [55.0, -150.0],
+    [15.0, -50.0],
   ],
 }).setView([38, -97], 5);
 
@@ -161,6 +161,31 @@ function onEachPointMeatInspectionReadiness(feature, layer) {
   layer.bindPopup(popupContent, popupStyle);
 }
 
+function onEachPointRecentAwards(feature, layer) {
+  let popupContent =
+    '<p class="popup-title">' +
+    feature.properties.grantee +
+    ", " +
+    feature.properties.state +
+    "</p>" +
+    '<p class="popup-text">Award Date: ' +
+    feature.properties.award_date +
+    "</p>" +
+    '<p class="popup-text">Grant Amount: $' +
+    thousandsSeparator(feature.properties.amount) +
+    "</p>" +
+    '<p class="popup-text">Grant Title: ' +
+    feature.properties.grant_title +
+    "</p>" +
+    '<p class="popup-text">Program Name: ' +
+    thousandsSeparator(feature.properties.program_name) +
+    "</p>" +
+    '<p class="popup-text">Program Area: ' +
+    thousandsSeparator(feature.properties.program_area) +
+    "</p>";
+  layer.bindPopup(popupContent, popupStyle);
+}
+
 // ------------map1 layers------------
 let layerPoints = L.geoJson(geojsonPoints, {
   onEachFeature: onEachMarker,
@@ -196,6 +221,20 @@ let layerMeatReadiness1 = L.geoJson(geojson_FY2022_Meat_Inspection_Readiness, {
     return L.circleMarker(latlng, {
       color: "#ffffff",
       fillColor: "#000000",
+      fillOpacity: 0.8,
+      opacity: 1,
+      radius: 7,
+      weight: 2,
+    });
+  },
+}).addTo(map1);
+
+let layerRecentAwards1 = L.geoJson(geojson_recent_awards, {
+  onEachFeature: onEachPointRecentAwards,
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      color: "#ffffff",
+      fillColor: "#ff00ff",
       fillOpacity: 0.8,
       opacity: 1,
       radius: 7,
@@ -245,6 +284,20 @@ let layerMeatReadiness2 = L.geoJson(geojson_FY2022_Meat_Inspection_Readiness, {
   },
 }).addTo(map2);
 
+let layerRecentAwards2 = L.geoJson(geojson_recent_awards, {
+  onEachFeature: onEachPointRecentAwards,
+  pointToLayer: function (feature, latlng) {
+    return L.circleMarker(latlng, {
+      color: "#ffffff",
+      fillColor: "#ff00ff",
+      fillOpacity: 0.8,
+      opacity: 1,
+      radius: 7,
+      weight: 2,
+    });
+  },
+}).addTo(map2);
+
 const logo1 = L.control({ position: "topright" });
 logo1.onAdd = function (map) {
   let div = L.DomUtil.create("div", "logo");
@@ -283,12 +336,14 @@ const overlays1 = {
   "USDA Rural Development Grant Awards, FY 2022": layerPoints,
   "Farm to School Grant, FY 2022": layerFarmToSchool1,
   "Meat and Poultry Inspection Readiness Grants, FY 2022": layerMeatReadiness1,
+  "Recent Awards": layerRecentAwards1,
 };
 
 const overlays2 = {
   "USDA Rural Development Grant Awards, FY 2022": markerCluster,
   "Farm to School Grant, FY 2022": layerFarmToSchool2,
   "Meat and Poultry Inspection Readiness Grants, FY 2022": layerMeatReadiness2,
+  "Recent Awards": layerRecentAwards2,
 };
 
 const layerControlMap1 = L.control

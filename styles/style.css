@@ -80,3 +80,29 @@ color: #000000;
   padding-right: 10px;
   background-color: #ffffff;
 }
+.marker-cluster-small,
+.marker-cluster-large,
+.marker-cluster-medium {
+    background-color: rgba(225, 143, 12, 0.6);
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+    background-color: rgba(225, 143, 12, 1);
+    ;
+}
+
+/* IE 6-8 fallback colors */
+
+.leaflet-oldie .marker-cluster-small,
+.leaflet-oldie .marker-cluster-medium,
+.leaflet-oldie .marker-cluster-large {
+    background-color: rgba(225, 143, 12, 0.6);
+}
+
+.leaflet-oldie .marker-cluster-small div,
+.leaflet-oldie .marker-cluster-medium div,
+.leaflet-oldie .marker-cluster-large div {
+    background-color: rgba(225, 143, 12, 1);
+}
