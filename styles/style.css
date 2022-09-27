@@ -106,3 +106,33 @@ color: #000000;
 .leaflet-oldie .marker-cluster-large div {
     background-color: rgba(225, 143, 12, 1);
 }
+#legend-map-1,
+#legend-map-2 {
+    position: absolute;
+    bottom: 70px;
+    right: 10px;
+    width: 230px;
+    height: 150px;
+    border: 1px solid black;
+    z-index: 3000;
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+#legend-map-1 p,
+#legend-map-2 p {
+    float: right;
+}
+
+td img {
+    padding: 5px;
+}
+
+td {
+    text-align: left;
+}
+
+td p {
+    float: right;
+    border: 1px solid pink;
+}

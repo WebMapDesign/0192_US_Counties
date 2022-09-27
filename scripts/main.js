@@ -186,6 +186,24 @@ function onEachPointRecentAwards(feature, layer) {
   layer.bindPopup(popupContent, popupStyle);
 }
 
+const iconCow = L.icon({
+  iconUrl: "images/icon_cow.png",
+  iconSize: [35, 35],
+  popupAnchor: [0, -5],
+});
+
+const iconSchool = L.icon({
+  iconUrl: "images/icon_school.png",
+  iconSize: [35, 35],
+  popupAnchor: [0, -5],
+});
+
+const iconRecent = L.icon({
+  iconUrl: "images/icon_recent.png",
+  iconSize: [35, 35],
+  popupAnchor: [0, -5],
+});
+
 // ------------map1 layers------------
 let layerPoints = L.geoJson(geojsonPoints, {
   onEachFeature: onEachMarker,
@@ -204,42 +222,21 @@ let layerPoints = L.geoJson(geojsonPoints, {
 let layerFarmToSchool1 = L.geoJson(geojson_FY2022_Farm_To_School, {
   onEachFeature: onEachPointFarmToSchool,
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-      color: "#ffffff",
-      fillColor: "#0764ab",
-      fillOpacity: 0.8,
-      opacity: 1,
-      radius: 7,
-      weight: 2,
-    });
+    return L.marker(latlng, { icon: iconSchool });
   },
 }).addTo(map1);
 
 let layerMeatReadiness1 = L.geoJson(geojson_FY2022_Meat_Inspection_Readiness, {
   onEachFeature: onEachPointMeatInspectionReadiness,
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-      color: "#ffffff",
-      fillColor: "#000000",
-      fillOpacity: 0.8,
-      opacity: 1,
-      radius: 7,
-      weight: 2,
-    });
+    return L.marker(latlng, { icon: iconCow });
   },
 }).addTo(map1);
 
 let layerRecentAwards1 = L.geoJson(geojson_recent_awards, {
   onEachFeature: onEachPointRecentAwards,
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-      color: "#ffffff",
-      fillColor: "#ff00ff",
-      fillOpacity: 0.8,
-      opacity: 1,
-      radius: 7,
-      weight: 2,
-    });
+    return L.marker(latlng, { icon: iconRecent });
   },
 }).addTo(map1);
 
@@ -259,44 +256,24 @@ map2.addLayer(markerCluster);
 let layerFarmToSchool2 = L.geoJson(geojson_FY2022_Farm_To_School, {
   onEachFeature: onEachPointFarmToSchool,
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-      color: "#ffffff",
-      fillColor: "#0764ab",
-      fillOpacity: 0.8,
-      opacity: 1,
-      radius: 7,
-      weight: 2,
-    });
+    return L.marker(latlng, { icon: iconSchool });
   },
 }).addTo(map2);
 
 let layerMeatReadiness2 = L.geoJson(geojson_FY2022_Meat_Inspection_Readiness, {
   onEachFeature: onEachPointMeatInspectionReadiness,
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-      color: "#ffffff",
-      fillColor: "#000000",
-      fillOpacity: 0.8,
-      opacity: 1,
-      radius: 7,
-      weight: 2,
-    });
+    return L.marker(latlng, { icon: iconCow });
   },
 }).addTo(map2);
 
 let layerRecentAwards2 = L.geoJson(geojson_recent_awards, {
   onEachFeature: onEachPointRecentAwards,
   pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-      color: "#ffffff",
-      fillColor: "#ff00ff",
-      fillOpacity: 0.8,
-      opacity: 1,
-      radius: 7,
-      weight: 2,
-    });
+    return L.marker(latlng, { icon: iconRecent });
   },
 }).addTo(map2);
+  
 
 const logo1 = L.control({ position: "topright" });
 logo1.onAdd = function (map) {
